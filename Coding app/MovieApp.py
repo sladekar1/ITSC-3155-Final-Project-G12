@@ -106,7 +106,7 @@ if st.sidebar.checkbox('Compare Ratings'):
     y=alt.Y('value:Q', title='Rating'),
     color='key:N' 
     ).properties(
-    title='Some title...',
+    title='Comparisons Between Films',
     width=800,
     height=400
     ).interactive()
