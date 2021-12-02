@@ -6,8 +6,8 @@ import numpy as np
 
 
 
-st.title('Movie bla-bla-bla')
-st.subheader("Something about what going on on this app")
+st.title('Movie Finder')
+st.subheader("Sort through your favorite Oscar Winners and Nominees!")
 
 # add picture
 from PIL import Image
@@ -27,30 +27,30 @@ df = load_data()
 
 #login fields
 def main():
-    menu=["SignIn", "SignUp"]
-    choice=st.sidebar.selectbox("Log in your Account", menu)
+    menu=["Sign In", "Sign Up"]
+    choice=st.sidebar.selectbox("Log into your Account", menu)
 
-    if choice=="SignIn":
+    if choice=="Sign In":
         #st.subheader("Login")
         username=st.sidebar.text_input("User Name")
         password=st.sidebar.text_input("Password", type="password")
-        if st.sidebar.checkbox("LogIn"):
+        if st.sidebar.checkbox("Log In"):
             st.success("Logged In as {}".format (username))
-            dosmth=st.selectbox("What are you want to do", ["Check My Movies", "Change password"])
+            dosmth=st.selectbox("What would you like to do?", ["Check My Movies", "Change password"])
             
-    elif choice=="SignUp":
-        st.subheader("Create new account")
+    elif choice=="Sign Up":
+        st.subheader("Create New Account")
         new_user=st.text_input("Username")
         new_password=st.text_input("Password", type="password")
-        if st.button ("SignUp"):
-            st.success("You create a new account") 
+        if st.button ("Sign Up"):
+            st.success("You created a new account!")
 main() 
    
   #create button
-award = st.sidebar.radio("Choose award", ('Nominee', 'Winner', "All"))
+award = st.sidebar.radio("Choose Award Type", ("All", 'Nominee', 'Winner'))
 placeholder=st.empty()
 
-if st.sidebar.checkbox("Show Initial List"):
+if st.sidebar.checkbox("Sort List via Award Type"):
     if award == 'Nominee':
         n= df.loc[df['Award']=="Nominee"]
         placeholder.dataframe(n)
@@ -66,7 +66,7 @@ genre = [" ", "Action", "Adventure", "Biography", "Comedy", "Crime", "Drama", "F
          "Mystery","Sci-Fi","Thriller", "Western", "Music", "Romance"]
 g=st.selectbox("Select Genre", genre)
 placeholder = st.empty()
-if st.checkbox ("Show list movies with chosen gener"):
+if st.checkbox ("Show Movie List With Chosen Genre"):
     for i in genre:
         i=g
         gshow = df[df['Genre'].str.contains(i)]
@@ -85,8 +85,8 @@ if st.checkbox ("Show list movies with chosen gener"):
     # create slider for years
 placeholder = st.empty()
 years = list(df['Year of Release'].unique())
-slider=st.sidebar.select_slider ("Choose a year", options= years)
-if st.sidebar.checkbox ("Show list movies of chosen years"):
+slider=st.sidebar.select_slider ("Choose a Year", options= years)
+if st.sidebar.checkbox ("Show Movie List According to Chosen Year"):
     df1=df[df["Year of Release"] == slider]
     st.write("### Movies of ", slider, "year", df1)
         
@@ -96,8 +96,8 @@ if st.sidebar.checkbox ("Show list movies of chosen years"):
     # choose the rank to compare
 cols = ['IMDB Rating', 'Tomatometer Rating', 'Audience Rating']
 
-if st.sidebar.checkbox('Compare ratings'):
-    option = st.multiselect('Rank movies of chosen years', cols, cols[0])
+if st.sidebar.checkbox('Compare Ratings'):
+    option = st.multiselect('Rank Movies of Chosen Years', cols, cols[0])
     df = df1[option].reset_index()
     alt_fig = alt.Chart(df).transform_fold(
     cols,
@@ -106,7 +106,7 @@ if st.sidebar.checkbox('Compare ratings'):
     y=alt.Y('value:Q', title='Rating'),
     color='key:N' 
     ).properties(
-    title='SOme title...',
+    title='Some title...',
     width=800,
     height=400
     ).interactive()
